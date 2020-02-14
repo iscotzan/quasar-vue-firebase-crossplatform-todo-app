@@ -74,22 +74,40 @@ const actions = {
   }
 };
 const getters = {
-  tasksFiltered: state => {
-    let filteredTasks = {};
+  tasksSorted: state => {
+    let sortedTasks = {},
+      keysOrdered = Object.keys(state.tasks);
+
+    keysOrdered.sort((a, b) => {
+      let taskAProp = state.tasks[a].name.toLowerCase();
+      let taskBProp = state.tasks[b].name.toLowerCase();
+      if (taskAProp > taskBProp) return 1;
+      else if (taskAProp < taskBProp) return -1;
+      else return 0;
+    });
+    keysOrdered.forEach(key => {
+      sortedTasks[key] = state.tasks[key];
+    });
+    console.log("TCL: sortedTasks", sortedTasks);
+    return sortedTasks;
+  },
+  tasksFiltered: (state, getters) => {
+    let tasksSorted = getters.tasksSorted(state),
+      filteredTasks = {};
     if (state.search.length) {
-      Object.keys(state.tasks).forEach(key => {
-        let task = state.tasks[key];
+      Object.keys(tasksSorted).forEach(key => {
+        let task = tasksSorted[key];
         if (task.name.toLowerCase().includes(state.search.toLowerCase())) {
           filteredTasks[key] = task;
         }
       });
       return filteredTasks;
     } else {
-      return state.tasks;
+      return tasksSorted;
     }
   },
   tasksTodo: state => {
-    let tasksFiltered = getters.tasksFiltered(state);
+    let tasksFiltered = getters.tasksFiltered(state, getters);
     console.log("TCL: tasksFiltered", tasksFiltered);
     let tasks = {};
 
@@ -102,7 +120,7 @@ const getters = {
     return tasks;
   },
   tasksCompleted: state => {
-    let tasksFiltered = getters.tasksFiltered(state);
+    let tasksFiltered = getters.tasksFiltered(state, getters);
     let tasks = {};
     Object.keys(tasksFiltered).forEach(key => {
       let task = tasksFiltered[key];
