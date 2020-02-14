@@ -3,6 +3,7 @@
     <h1 class="text-center text-secondary text-bold">ToDoz</h1>
     <div class="row q-mb-lg">
       <Search />
+      <Sort />
     </div>
     <p
       v-if="
@@ -41,6 +42,7 @@ import TasksTodo from "./../components/Tasks/TasksTodo";
 import TasksCompleted from "./../components/Tasks/TasksCompleted";
 import NoTasks from "./../components/Tasks/NoTasks";
 import Search from "./../components/Tasks/Tools/Search";
+import Sort from "./../components/Tasks/Tools/Sort";
 import { mapGetters, mapState } from "vuex";
 export default {
   data() {
@@ -66,8 +68,8 @@ export default {
     TasksTodo,
     TasksCompleted,
     NoTasks,
-    //@ts-ignore
-    Search
+    Search,
+    Sort
     // Task: require("./../components/Task/Task").default
   }
 };

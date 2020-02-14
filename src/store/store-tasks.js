@@ -32,7 +32,8 @@ const state = {
       dueTime: "4:10"
     }
   },
-  search: ""
+  search: "",
+  sort: "dueDate"
 };
 const mutations = {
   //not async
@@ -51,6 +52,9 @@ const mutations = {
   },
   setSearch(state, value) {
     state.search = value;
+  },
+  setSort(state, value) {
+    state.sort = value;
   }
 };
 
@@ -71,6 +75,9 @@ const actions = {
   },
   setSearch({ commit }, value) {
     commit("setSearch", value);
+  },
+  setSort({ commit }, value) {
+    commit("setSort", value);
   }
 };
 const getters = {
@@ -79,8 +86,8 @@ const getters = {
       keysOrdered = Object.keys(state.tasks);
 
     keysOrdered.sort((a, b) => {
-      let taskAProp = state.tasks[a].name.toLowerCase();
-      let taskBProp = state.tasks[b].name.toLowerCase();
+      let taskAProp = state.tasks[a][state.sort].toLowerCase();
+      let taskBProp = state.tasks[b][state.sort].toLowerCase();
       if (taskAProp > taskBProp) return 1;
       else if (taskAProp < taskBProp) return -1;
       else return 0;
