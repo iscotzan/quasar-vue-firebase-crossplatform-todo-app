@@ -88,7 +88,7 @@ export default {
       return date.formatDate(value, "MMM D");
     },
     searchHighlight(value, search) {
-      console.log("TCL: searchHighlight -> (value, search)", (value, search));
+      // console.log("TCL: searchHighlight -> (value, search)", (value, search));
       if (search) {
         let searchRegex = new RegExp(search, "ig");
         return value.replace(searchRegex, match => {

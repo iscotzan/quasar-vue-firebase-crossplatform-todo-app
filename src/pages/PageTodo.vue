@@ -1,34 +1,47 @@
 <template>
-  <q-page padding>
-    <h1 class="text-center text-secondary text-bold">ToDoz</h1>
-    <div class="row q-mb-lg">
-      <Search />
-      <Sort />
-    </div>
-    <p
-      v-if="
-        search &&
-          !Object.keys(tasksTodo).length &&
-          !Object.keys(tasksCompleted).length
-      "
-    >
-      No search results :(
-    </p>
-    <NoTasks v-if="!Object.keys(tasksTodo).length && !search"></NoTasks>
-    <TasksTodo :tasksTodo="tasksTodo" v-if="Object.keys(tasksTodo).length" />
-    <TasksCompleted
-      :tasksCompleted="tasksCompleted"
-      v-if="Object.keys(tasksCompleted).length"
-    />
+  <q-page>
+    <div class="q-pa-md absolute full-width full-height column">
+      <h1 class="text-center text-secondary text-bold">ToDoz</h1>
+      <div class="row q-mb-lg">
+        <Search />
+        <Sort />
+      </div>
+      <p
+        v-if="
+          search &&
+            !Object.keys(tasksTodo).length &&
+            !Object.keys(tasksCompleted).length
+        "
+      >
+        No search results :(
+      </p>
 
-    <div class="absolute-bottom text-center q-mb-lg">
-      <q-btn
-        round
-        color="primary"
-        size="24px"
-        icon="add"
-        @click="showAddTask = true"
-      />
+      <q-scroll-area class="relative-position q-scroll-area-tasks">
+        <NoTasks v-if="!Object.keys(tasksTodo).length && !search"></NoTasks>
+
+        <TasksTodo
+          :tasksTodo="tasksTodo"
+          v-if="Object.keys(tasksTodo).length"
+        />
+
+        <TasksCompleted
+          class="q-mb-xl"
+          :tasksCompleted="tasksCompleted"
+          v-if="Object.keys(tasksCompleted).length"
+        />
+      </q-scroll-area>
+
+      <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
+        <q-btn
+          round
+          color="primary"
+          size="24px"
+          icon="add"
+          class="all-pointer-events"
+          @click="showAddTask = true"
+        />
+      </div>
+
       <q-dialog v-model="showAddTask">
         <addtask :showAddTask="showAddTask" @close="showAddTask = false" />
       </q-dialog>
@@ -75,4 +88,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.q-scroll-area-tasks {
+  display: flex;
+  flex-grow: 1;
+}
+</style>

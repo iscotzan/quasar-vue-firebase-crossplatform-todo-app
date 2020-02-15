@@ -1,20 +1,26 @@
 <template>
-  <div>
-    <ListBanner bgColor="bg-orange-4">ToDo</ListBanner>
+  <transition
+    appear
+    enter-active-class="animated zoomIn"
+    leave-active-class="animated zoomOut absolute-top"
+  >
+    <div>
+      <ListBanner bgColor="bg-orange-4">ToDo</ListBanner>
 
-    <q-list bordered>
-      <div
-        v-for="(task, key) in tasksTodo"
-        :key="key"
-        :class="!task.completed ? 'bg-orange-1' : 'bg-green-1'"
-      >
-        <!-- @click="task.completed = !task.completed" -->
-        <q-separator />
-        <q-space />
-        <task :task="task" :id="key" />
-      </div>
-    </q-list>
-  </div>
+      <q-list bordered>
+        <div
+          v-for="(task, key) in tasksTodo"
+          :key="key"
+          :class="!task.completed ? 'bg-orange-1' : 'bg-green-1'"
+        >
+          <!-- @click="task.completed = !task.completed" -->
+          <q-separator />
+          <q-space />
+          <task :task="task" :id="key" />
+        </div>
+      </q-list>
+    </div>
+  </transition>
 </template>
 <script>
 import Task from "./Task";

@@ -30,6 +30,62 @@ const state = {
       name: "Go sleep",
       dueDate: "2020/23/09",
       dueTime: "4:10"
+    },
+    id5: {
+      id: 4,
+      completed: false,
+      name: "Go get coffee and cookies",
+      dueDate: "2020/05/09",
+      dueTime: "4:30"
+    },
+    id6: {
+      id: 5,
+      completed: false,
+      name: "Go shop",
+      dueDate: "2020/05/09",
+      dueTime: "4:30"
+    },
+    id7: {
+      id: 6,
+      completed: false,
+      name: "Go bananas",
+      dueDate: "2020/20/09",
+      dueTime: "6:30"
+    },
+    id8: {
+      id: 7,
+      completed: false,
+      name: "Go sleep",
+      dueDate: "2020/23/09",
+      dueTime: "4:10"
+    },
+    id9: {
+      id: 8,
+      completed: false,
+      name: "Go get coffee and cookies",
+      dueDate: "2020/05/09",
+      dueTime: "4:30"
+    },
+    id10: {
+      id: 9,
+      completed: false,
+      name: "Go shop",
+      dueDate: "2020/05/09",
+      dueTime: "4:30"
+    },
+    id11: {
+      id: 10,
+      completed: false,
+      name: "Go bananas",
+      dueDate: "2020/20/09",
+      dueTime: "6:30"
+    },
+    id12: {
+      id: 11,
+      completed: false,
+      name: "Go sleep",
+      dueDate: "2020/23/09",
+      dueTime: "4:10"
     }
   },
   search: "",
