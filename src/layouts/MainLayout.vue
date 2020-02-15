@@ -3,14 +3,15 @@
     <!-- <q-layout view="lHh Lpr lFf"> -->
     <q-header elevated>
       <q-toolbar>
-        <!-- <q-btn
+        <q-btn
           flat
           dense
+          v-if="$q.platform.is.desktop || $q.platform.is.ipad"
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
           icon="menu"
           aria-label="Menu"
-        /> -->
+        />
 
         <q-toolbar-title>
           What ToDo

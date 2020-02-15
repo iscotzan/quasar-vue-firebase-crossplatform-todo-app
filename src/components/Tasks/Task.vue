@@ -8,17 +8,20 @@
   <!-- <div class="q-pa-md" style="max-width: 350px">
     <q-list bordered> -->
   <q-item
-    v-ripple
-    clickable
     @click="updateTask({ id: id, updates: { completed: !task.completed } })"
+    v-touch-hold:1000.mouse="showEditTaskModal"
+    clickable
+    v-ripple
   >
     <q-item-section side top>
       <q-checkbox v-model="task.completed" />
     </q-item-section>
 
     <q-item-section>
-      <q-item-label :class="{ 'text-strikethrough': task.completed }">
-        {{ task.name }}
+      <q-item-label
+        :class="{ 'text-strikethrough': task.completed }"
+        v-html="$options.filters.searchHighlight(task.name, search)"
+      >
       </q-item-label>
     </q-item-section>
     <q-item-section side v-if="task.dueDate">
@@ -28,7 +31,7 @@
         </div>
         <div class="column">
           <div class="row justify-end">
-            <q-item-label caption>{{ task.dueDate }} </q-item-label>
+            <q-item-label caption>{{ task.dueDate | niceDate }} </q-item-label>
           </div>
           <div class="row justify-end">
             <q-item-label caption>{{ task.dueTime }} </q-item-label>
@@ -44,7 +47,7 @@
           dense
           color="primary"
           icon="edit"
-          @click.stop="showEditTask = true"
+          @click.stop="showEditTaskModal"
         />
         <q-btn
           round
@@ -69,7 +72,9 @@
   <!-- </div> -->
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+import { date } from "quasar";
+
 import EditTask from "./Modals/EditTask";
 export default {
   props: ["task", "id"],
@@ -78,8 +83,26 @@ export default {
       showEditTask: false
     };
   },
+  filters: {
+    niceDate(value) {
+      return date.formatDate(value, "MMM D");
+    },
+    searchHighlight(value, search) {
+      console.log("TCL: searchHighlight -> (value, search)", (value, search));
+      if (search) {
+        let searchRegex = new RegExp(search, "ig");
+        return value.replace(searchRegex, match => {
+          return '<span class="bg-yellow-6">' + match + "</span>";
+        });
+      }
+      return value;
+    }
+  },
   methods: {
     ...mapActions("tasks", ["updateTask", "deleteTask"]),
+    showEditTaskModal() {
+      this.showEditTask = true;
+    },
     promptToDelete(id) {
       this.$q
         .dialog({
@@ -100,6 +123,9 @@ export default {
           // console.log('I am triggered on both OK and Cancel')
         });
     }
+  },
+  computed: {
+    ...mapState("tasks", ["search"])
   },
   components: { EditTask }
 };

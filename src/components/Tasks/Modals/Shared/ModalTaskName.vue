@@ -6,6 +6,7 @@
       class="col"
       @input="$emit('update:name', $event)"
       autofocus
+      v-select-all
       clearable
       clear-icon="close"
       ref="name"
@@ -16,7 +17,10 @@
   </div>
 </template>
 <script>
+import { selectAll } from "./../../../../directives/select-all.directive";
 export default {
-    props: ['name']
-}
+  props: ["name"],
+
+  directives: { selectAll }
+};
 </script>
