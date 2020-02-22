@@ -4,6 +4,7 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       { path: "", component: () => import("pages/PageTodo.vue") },
+      { path: "auth", component: () => import("pages/PageAuth.vue") },
       { path: "settings", component: () => import("pages/PageSettings.vue") },
       { path: "settings/help", component: () => import("pages/PageHelp.vue") }
     ]

@@ -17,7 +17,8 @@
           What ToDo
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn flat icon-right="account_circle" to="/auth" label="Login" class="absolute-right"></q-btn>
+        <!-- Quasar v{{ $q.version }} -->
       </q-toolbar>
     </q-header>
     <q-footer>
