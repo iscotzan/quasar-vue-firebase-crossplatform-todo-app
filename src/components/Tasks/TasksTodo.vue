@@ -5,9 +5,11 @@
     leave-active-class="animated zoomOut absolute-top"
   >
     <div>
-      <ListBanner bgColor="bg-orange-4">ToDo</ListBanner>
+      <ListBanner v-if="!settings.showTasksInOneList" bgColor="bg-orange-4"
+        >ToDo</ListBanner
+      >
 
-      <q-list bordered>
+      <q-list>
         <div
           v-for="(task, key) in tasksTodo"
           :key="key"
@@ -25,11 +27,15 @@
 <script>
 import Task from "./Task";
 import ListBanner from "./Modals/Shared/ListBanner";
+import { mapGetters } from "vuex";
 export default {
   props: ["tasksTodo"],
   components: {
     task: Task,
     ListBanner
+  },
+  computed: {
+    ...mapGetters("settings", ["settings"])
   }
 };
 </script>

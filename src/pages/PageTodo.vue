@@ -17,7 +17,7 @@
       </p>
 
       <q-scroll-area class="relative-position q-scroll-area-tasks">
-        <NoTasks v-if="!Object.keys(tasksTodo).length && !search"></NoTasks>
+        <NoTasks v-if="!Object.keys(tasksTodo).length && !search && !settings.showTasksInOneList"></NoTasks>
 
         <TasksTodo
           :tasksTodo="tasksTodo"
@@ -65,6 +65,7 @@ export default {
   },
   computed: {
     ...mapGetters("tasks", ["tasksTodo", "tasksCompleted"]),
+    ...mapGetters("settings", ["settings"]),
     ...mapState("tasks", ["search"])
     // tasks() {
     //   return this.$store.getters["tasks/tasks"];

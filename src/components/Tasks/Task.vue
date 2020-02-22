@@ -34,7 +34,7 @@
             <q-item-label caption>{{ task.dueDate | niceDate }} </q-item-label>
           </div>
           <div class="row justify-end">
-            <q-item-label caption>{{ task.dueTime }} </q-item-label>
+            <q-item-label caption>{{ taskDueTime }} </q-item-label>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
   <!-- </div> -->
 </template>
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import { date } from "quasar";
 
 import EditTask from "./Modals/EditTask";
@@ -125,7 +125,21 @@ export default {
     }
   },
   computed: {
-    ...mapState("tasks", ["search"])
+    ...mapState("tasks", ["search"]),
+    ...mapGetters("settings", ["settings"]),
+    taskDueTime() {
+      console.log(
+        "TCL: taskDueTime -> this.settings.show12HourTimeFormat",
+        this.settings.show12HourTimeFormat
+      );
+      if (this.settings.show12HourTimeFormat) {
+        return date.formatDate(
+          this.task.dueDate + " " + this.task.dueTime,
+          "h:mmA"
+        );
+      }
+      return this.task.dueTime;
+    }
   },
   components: { EditTask }
 };
