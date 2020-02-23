@@ -33,7 +33,7 @@ import loginregister from "./../components/Auth/LoginRegister";
 export default {
   data() {
     return {
-      tab: "register"
+      tab: "login"
     };
   },
   components: {

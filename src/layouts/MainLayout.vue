@@ -17,7 +17,22 @@
           What ToDo
         </q-toolbar-title>
 
-        <q-btn flat icon-right="account_circle" to="/auth" label="Login" class="absolute-right"></q-btn>
+        <q-btn
+          v-if="!loggedIn"
+          flat
+          icon-right="account_circle"
+          to="/auth"
+          label="Login"
+          class="absolute-right"
+        ></q-btn>
+        <q-btn
+          v-else
+          flat
+          icon-right="exit"
+          @click="logoutUser"
+          label="Logout"
+          class="absolute-right"
+        ></q-btn>
         <!-- Quasar v{{ $q.version }} -->
       </q-toolbar>
     </q-header>
@@ -67,7 +82,7 @@
 <script>
 import EssentialLink from "components/EssentialLink";
 import FooterTab from "components/FooterTab";
-
+import { mapState, mapActions } from "vuex";
 export default {
   name: "MainLayout",
 
@@ -109,6 +124,12 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    ...mapState("auth", ["loggedIn"])
+  },
+  methods: {
+    ...mapActions("auth", ["logoutUser"])
   }
 };
 </script>
