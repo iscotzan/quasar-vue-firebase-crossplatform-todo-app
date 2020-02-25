@@ -61,6 +61,7 @@
       bordered
       content-class="bg-primary"
     >
+      <!-- v-if="loggedIn" -->
       <q-list dark>
         <q-item-label header class="text-blue-3 text-h5"
           >Where To Go</q-item-label
