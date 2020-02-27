@@ -11,7 +11,7 @@
         <q-popup-proxy>
           <q-date
             :value="dueDate"
-            mask="YYYY-MM-DD HH:mm"
+            mask="YYYY-MM-DD"
             color="purple"
             @input="$emit('update:dueDate', $event)"
           />

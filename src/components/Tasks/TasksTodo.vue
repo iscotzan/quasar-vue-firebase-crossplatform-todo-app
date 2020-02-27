@@ -13,7 +13,7 @@
         <div
           v-for="(task, key) in tasksTodo"
           :key="key"
-          :class="!task.completed ? 'bg-orange-1' : 'bg-green-1'"
+          :class="settings.showInDarkMode ? 'bg-orange-7' : 'bg-orange-1'"
         >
           <!-- @click="task.completed = !task.completed" -->
           <q-separator />

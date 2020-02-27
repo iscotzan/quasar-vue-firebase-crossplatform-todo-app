@@ -4,11 +4,16 @@
     enter-active-class="animated zoomIn"
     leave-active-class="animated zoomOut"
   >
-    <q-banner dense class="bg-grey-3">
+    <q-banner
+      dense
+      :class="settings.showInDarkMode ? 'bg-blue-3 col' : 'bg-grey-3 col'"
+    >
       <template v-slot:avatar>
         <q-icon name="check" color="primary" />
       </template>
-      No tasks to do
+      <q-badge size="large" class="text-h6 rounded-borders q-pa-xs">
+        No tasks to do
+      </q-badge>
       <template v-slot:action>
         <q-btn
           flat
@@ -21,5 +26,11 @@
   </transition>
 </template>
 <script>
-export default {};
+import { mapGetters } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters("settings", ["settings"])
+  }
+};
 </script>

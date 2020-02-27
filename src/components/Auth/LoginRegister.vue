@@ -1,9 +1,9 @@
 <template>
   <form @submit.prevent="submitForm">
     <div class="row q-mb-md ">
-      <q-banner dense class="bg-grey-3 col">
+      <q-banner dense :class="settings.showInDarkMode ? 'bg-secondary col' : 'bg-grey-3 col'">
         <template v-slot:avatar>
-          <q-icon name="account_circle" color="primary" />
+          <q-icon name="account_circle" :color="settings.showInDarkMode ? 'blue-2' : 'primary'" />
         </template>
         {{ tab | titleCase }} to access your todos anywhere!
       </q-banner>
@@ -44,7 +44,7 @@
   </form>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   props: ["tab"],
 
@@ -55,6 +55,9 @@ export default {
         password: ""
       }
     };
+  },
+  computed: {
+    ...mapGetters("settings", ["settings"])
   },
   methods: {
     ...mapActions("auth", ["registerUser", "loginUser"]),

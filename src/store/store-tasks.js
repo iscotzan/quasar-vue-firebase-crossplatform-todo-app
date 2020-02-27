@@ -1,95 +1,14 @@
 import Vue from "vue";
 import { uid } from "quasar";
+import { firebaseDB, firebaseAuth } from "boot/firebase";
+import { showErrorMessage } from "../functions/function-show-error-message";
+import { goNotify } from "../functions/function-notify";
 const state = {
   // showAddTaskModal: false,
-  tasks: {
-    id1: {
-      id: 0,
-      completed: false,
-      name: "Go get coffee and cookies",
-      dueDate: "2020/05/09",
-      dueTime: "4:30"
-    },
-    id2: {
-      id: 1,
-      completed: false,
-      name: "Go shop",
-      dueDate: "2020/05/09",
-      dueTime: "4:30"
-    },
-    id3: {
-      id: 2,
-      completed: false,
-      name: "Go bananas",
-      dueDate: "2020/20/09",
-      dueTime: "6:30"
-    },
-    id4: {
-      id: 3,
-      completed: false,
-      name: "Go sleep",
-      dueDate: "2020/23/09",
-      dueTime: "4:10"
-    },
-    // id5: {
-    //   id: 4,
-    //   completed: false,
-    //   name: "Go get coffee and cookies",
-    //   dueDate: "2020/05/09",
-    //   dueTime: "4:30"
-    // },
-    // id6: {
-    //   id: 5,
-    //   completed: false,
-    //   name: "Go shop",
-    //   dueDate: "2020/05/09",
-    //   dueTime: "4:30"
-    // },
-    // id7: {
-    //   id: 6,
-    //   completed: false,
-    //   name: "Go bananas",
-    //   dueDate: "2020/20/09",
-    //   dueTime: "6:30"
-    // },
-    // id8: {
-    //   id: 7,
-    //   completed: false,
-    //   name: "Go sleep",
-    //   dueDate: "2020/23/09",
-    //   dueTime: "4:10"
-    // },
-    // id9: {
-    //   id: 8,
-    //   completed: false,
-    //   name: "Go get coffee and cookies",
-    //   dueDate: "2020/05/09",
-    //   dueTime: "4:30"
-    // },
-    // id10: {
-    //   id: 9,
-    //   completed: false,
-    //   name: "Go shop",
-    //   dueDate: "2020/05/09",
-    //   dueTime: "4:30"
-    // },
-    // id11: {
-    //   id: 10,
-    //   completed: false,
-    //   name: "Go bananas",
-    //   dueDate: "2020/20/09",
-    //   dueTime: "6:30"
-    // },
-    // id12: {
-    //   id: 11,
-    //   completed: false,
-    //   name: "Go sleep",
-    //   dueDate: "2020/23/09",
-    //   dueTime: "4:10"
-    // }
-  },
+  tasks: {},
   search: "",
-  sort: "dueDate"
+  sort: "dueDate",
+  tasksLoaded: false
 };
 const mutations = {
   //not async
@@ -109,39 +28,147 @@ const mutations = {
   setSearch(state, value) {
     state.search = value;
   },
+  setTasksLoaded(state, value) {
+    state.tasksLoaded = value;
+  },
   setSort(state, value) {
     state.sort = value;
+  },
+  clearTasks(state) {
+    state.tasks = {};
   }
 };
 
 const actions = {
   //can be async
 
-  updateTask({ commit }, payload) {
+  updateTask({ dispatch }, payload) {
     // console.log("updateTask", payload);
-    commit("updateTask", payload);
+    // commit("updateTask", payload);
+    dispatch("fbUpdateTask", payload);
   },
-  deleteTask({ commit }, id) {
-    commit("deleteTask", id);
+  deleteTask({ dispatch }, id) {
+    dispatch("fbDeleteTask", id);
   },
-  addTask({ commit }, task) {
+  addTask({ dispatch }, task) {
     let taskId = uid();
     let payload = { id: taskId, task: task };
-    commit("addTask", payload);
+    // commit("addTask", payload);
+    dispatch("fbAddTask", payload);
   },
   setSearch({ commit }, value) {
     commit("setSearch", value);
   },
   setSort({ commit }, value) {
     commit("setSort", value);
+  },
+  fbDeleteTask({}, taskId) {
+    // console.log("TCL: fbAddTask -> payload", payload);
+    const userId = firebaseAuth.currentUser.uid;
+    const taskRef = firebaseDB.ref(`tasks/${userId}/${taskId}`);
+    taskRef.remove(error => {
+      if (error) {
+        showErrorMessage(error.message);
+      } else {
+        goNotify("task removed!", {
+          color: "negative",
+          icon: "remove_circle_outline"
+        });
+      }
+    });
+  },
+  fbUpdateTask({}, payload) {
+    // console.log("TCL: fbAddTask -> payload", payload);
+    const userId = firebaseAuth.currentUser.uid;
+    const taskRef = firebaseDB.ref(`tasks/${userId}/${payload.id}`);
+    taskRef.update(payload.updates, error => {
+      if (error) {
+        showErrorMessage(error.message);
+      } else {
+        const keys = Object.keys(payload.updates);
+        if (keys.includes("completed") && keys.length === 1) {
+          //user toggled task completed
+          return;
+        }
+        goNotify("task updated!", { color: "info", icon: "update" });
+      }
+    });
+  },
+  fbAddTask({}, payload) {
+    // console.log("TCL: fbAddTask -> payload", payload);
+    const userId = firebaseAuth.currentUser.uid;
+    const taskRef = firebaseDB.ref(`tasks/${userId}/${payload.id}`);
+    taskRef.set(payload.task, error => {
+      if (error) {
+        showErrorMessage(error.message);
+      } else {
+        goNotify("task added!", {
+          color: "positive",
+          icon: "playlist_add_check"
+        });
+      }
+    });
+  },
+  fbReadData({ commit }) {
+    console.log("TCL: fbReadData -> fbReadData");
+    const userId = firebaseAuth.currentUser.uid;
+    const userTasks = firebaseDB.ref(`tasks/${userId}`);
+
+    //initial check for data
+    userTasks.once(
+      "value",
+      snapshot => {
+        console.log("TCL: fbReadData -> snapshot", snapshot);
+        commit("setTasksLoaded", true);
+      },
+      error => {
+        console.log("TCL: fbReadData ->  error", error);
+        showErrorMessage(error.message);
+        this.$router.replace("/auth");
+      }
+    );
+    //child added
+    userTasks.on("child_added", snapshot => {
+      let task = snapshot.val();
+      console.log("TCL: fbReadData -> task", task);
+      let payload = {
+        id: snapshot.key,
+        task
+      };
+      commit("addTask", payload);
+    });
+    userTasks.on("child_changed", snapshot => {
+      let task = snapshot.val();
+      console.log("TCL: fbReadData -> task", task);
+      let payload = {
+        id: snapshot.key,
+        updates: task
+      };
+      commit("updateTask", payload);
+    });
+    userTasks.on("child_removed", snapshot => {
+      let taskId = snapshot.key;
+      commit("deleteTask", taskId);
+    });
   }
 };
 const getters = {
   tasksSorted: state => {
     let sortedTasks = {},
       keysOrdered = Object.keys(state.tasks);
-
+    // console.log("TCL: keysOrdered", keysOrdered, state);
     keysOrdered.sort((a, b) => {
+      // console.log(state.tasks[a][state.sort], state.tasks[b][state.sort]);
+      if (
+        state.tasks[a][state.sort] === undefined &&
+        state.tasks[b][state.sort] === undefined
+      ) {
+        return 0;
+      } else if (state.tasks[b][state.sort] === undefined) {
+        return 1;
+      } else if (state.tasks[a][state.sort] === undefined) {
+        return -1;
+      }
       let taskAProp = state.tasks[a][state.sort].toLowerCase();
       let taskBProp = state.tasks[b][state.sort].toLowerCase();
       if (taskAProp > taskBProp) return 1;

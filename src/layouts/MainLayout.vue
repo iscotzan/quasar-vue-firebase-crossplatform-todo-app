@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="lHh lpR fFf">
+  <q-layout view="lHh lpR fFf" >
     <!-- <q-layout view="lHh Lpr lFf"> -->
-    <q-header elevated>
+    <q-header elevated :class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'" >
       <q-toolbar>
         <q-btn
           flat
@@ -14,7 +14,7 @@
         />
 
         <q-toolbar-title>
-          What ToDo
+          What ToDoz
         </q-toolbar-title>
 
         <q-btn
@@ -59,12 +59,12 @@
       :breakpoint="767"
       :width="250"
       bordered
-      content-class="bg-primary"
+      :content-class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'"
     >
       <!-- v-if="loggedIn" -->
       <q-list dark>
         <q-item-label header class="text-blue-3 text-h5"
-          >Where To Go</q-item-label
+          >Where Todoz</q-item-label
         >
         <EssentialLink
           v-for="link in essentialLinks"
@@ -83,7 +83,7 @@
 <script>
 import EssentialLink from "components/EssentialLink";
 import FooterTab from "components/FooterTab";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 export default {
   name: "MainLayout",
 
@@ -97,14 +97,8 @@ export default {
       leftDrawerOpen: false,
       essentialLinks: [
         {
-          title: "Docs",
-          caption: "quasar.dev",
-          icon: "school",
-          link: "https://quasar.dev"
-        },
-        {
-          title: "Todo",
-          caption: "Todo",
+          title: "Todoz",
+          caption: "Todoz",
           icon: "list",
           link: null,
           to: "/"
@@ -127,7 +121,8 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["loggedIn"])
+    ...mapState("auth", ["loggedIn"]),
+    ...mapGetters("settings", ["settings"])
   },
   methods: {
     ...mapActions("auth", ["logoutUser"])

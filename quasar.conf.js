@@ -43,7 +43,7 @@ module.exports = function(ctx) {
       directives: [],
 
       // Quasar plugins
-      plugins: ["Dialog", "LocalStorage"]
+      plugins: ["Dialog", "LocalStorage", "Notify"]
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
@@ -95,8 +95,8 @@ module.exports = function(ctx) {
       workboxPluginMode: "GenerateSW", // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: "Awesome Todo",
-        short_name: "Awesome Todo",
+        name: "Todoz",
+        short_name: "Todoz",
         description: "A Quasar Framework app",
         display: "standalone",
         orientation: "portrait",

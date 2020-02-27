@@ -39,7 +39,7 @@ const actions = {
         showErrorMessage(err.message);
       });
   },
-  handleAuthStateChange({ commit }) {
+  handleAuthStateChange({ commit, dispatch }) {
     console.log("TCL: handleAuthStateChange -> handleAuthStateChange");
     firebaseAuth.onAuthStateChanged(user => {
       Loading.hide();
@@ -49,7 +49,10 @@ const actions = {
         this.$router.push("/").catch(err => {
           console.log("TCL: handleAuthStateChange -> err", err);
         });
+        dispatch("tasks/fbReadData", null, { root: true });
       } else {
+        // commit("tasks/setTasksLoaded", false, { root: true });
+        // commit("tasks/clearTasks", null, { root: true });
         commit("setLoggedIn", false);
         LocalStorage.set("loggedIn", false);
         this.$router.replace("/auth").catch(err => {

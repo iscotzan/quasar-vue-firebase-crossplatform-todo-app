@@ -130,15 +130,14 @@ export default {
     taskDueTime() {
       console.log(
         "TCL: taskDueTime -> this.settings.show12HourTimeFormat",
-        this.settings.show12HourTimeFormat
+        this.settings.show12HourTimeFormat,
+        this.task.dueTime,
+        date.formatDate(this.task.dueTime, "h:mmA")
       );
       if (this.settings.show12HourTimeFormat) {
-        return date.formatDate(
-          this.task.dueDate + " " + this.task.dueTime,
-          "h:mmA"
-        );
+        return date.formatDate(this.task.dueTime, "h:mmA");
       }
-      return this.task.dueTime;
+      return date.formatDate(this.task.dueTime, "HH:mm");
     }
   },
   components: { EditTask }

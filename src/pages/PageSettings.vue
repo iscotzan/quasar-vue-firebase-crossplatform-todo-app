@@ -5,6 +5,15 @@
 
       <q-item tag="label" v-ripple>
         <q-item-section>
+          <q-item-label>Show todoz in dark mode</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-toggle color="blue" v-model="showInDarkMode" />
+        </q-item-section>
+      </q-item>
+
+      <q-item tag="label" v-ripple>
+        <q-item-section>
           <q-item-label>Show 12 hour time format</q-item-label>
         </q-item-section>
         <q-item-section side>
@@ -71,12 +80,21 @@ export default {
       set(value) {
         this.setShowTasksInOneList(value);
       }
+    },
+    showInDarkMode: {
+      get() {
+        return this.settings.showInDarkMode;
+      },
+      set(value) {
+        this.setShowTasksInDarkMode(value);
+      }
     }
   },
   methods: {
     ...mapActions("settings", [
       "setShow12HourTimeFormat",
-      "setShowTasksInOneList"
+      "setShowTasksInOneList",
+      "setShowTasksInDarkMode"
     ]),
     visitOurWebsite() {
       return openURL("http://www.iscovici.com");

@@ -1,4 +1,4 @@
-# Awesome Todo (awesome-todo)
+# Todoz (awesome-todo)
 
 A Quasar Framework app
 
