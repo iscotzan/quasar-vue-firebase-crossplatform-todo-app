@@ -13,12 +13,12 @@ const state = {
 const mutations = {
   //not async
   updateTask(state, payload) {
-    console.log(payload);
+    // console.log(payload);
     Object.assign(state.tasks[payload.id], payload.updates);
   },
 
   deleteTask(state, id) {
-    console.log("delete", id);
+    // console.log("delete", id);
     Vue.delete(state.tasks, id);
   },
   addTask(state, payload) {
@@ -110,7 +110,7 @@ const actions = {
     });
   },
   fbReadData({ commit }) {
-    console.log("TCL: fbReadData -> fbReadData");
+    // console.log("TCL: fbReadData -> fbReadData");
     const userId = firebaseAuth.currentUser.uid;
     const userTasks = firebaseDB.ref(`tasks/${userId}`);
 
@@ -122,7 +122,7 @@ const actions = {
         commit("setTasksLoaded", true);
       },
       error => {
-        console.log("TCL: fbReadData ->  error", error);
+        // console.log("TCL: fbReadData ->  error", error);
         showErrorMessage(error.message);
         this.$router.replace("/auth");
       }
@@ -130,7 +130,7 @@ const actions = {
     //child added
     userTasks.on("child_added", snapshot => {
       let task = snapshot.val();
-      console.log("TCL: fbReadData -> task", task);
+      // console.log("TCL: fbReadData -> task", task);
       let payload = {
         id: snapshot.key,
         task
@@ -139,7 +139,7 @@ const actions = {
     });
     userTasks.on("child_changed", snapshot => {
       let task = snapshot.val();
-      console.log("TCL: fbReadData -> task", task);
+      // console.log("TCL: fbReadData -> task", task);
       let payload = {
         id: snapshot.key,
         updates: task
@@ -178,7 +178,7 @@ const getters = {
     keysOrdered.forEach(key => {
       sortedTasks[key] = state.tasks[key];
     });
-    console.log("TCL: sortedTasks", sortedTasks);
+    // console.log("TCL: sortedTasks", sortedTasks);
     return sortedTasks;
   },
   tasksFiltered: (state, getters) => {
@@ -198,7 +198,7 @@ const getters = {
   },
   tasksTodo: state => {
     let tasksFiltered = getters.tasksFiltered(state, getters);
-    console.log("TCL: tasksFiltered", tasksFiltered);
+    // console.log("TCL: tasksFiltered", tasksFiltered);
     let tasks = {};
 
     Object.keys(tasksFiltered).forEach(key => {
