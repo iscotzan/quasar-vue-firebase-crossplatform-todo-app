@@ -11,9 +11,16 @@
       <template v-slot:avatar>
         <q-icon name="check" color="primary" />
       </template>
-      <q-badge size="large" class="text-h6 rounded-borders q-pa-xs">
-        No tasks to do
-      </q-badge>
+      <div class="">
+        <q-badge
+          size="large"
+          color="primary"
+          outline
+          class="text-h5 rounded-borders q-pa-xs"
+        >
+          No tasks to do
+        </q-badge>
+      </div>
       <template v-slot:action>
         <q-btn
           flat
