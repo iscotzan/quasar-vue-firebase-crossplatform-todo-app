@@ -33,16 +33,16 @@ export default {
       .then(() => {
         // console.log("TCL: created -> resp", resp);
         // alert("reload");
-        firebaseAuth.currentUser.reload().then(() => {
-          //   console.log("TCL: created -> reloaded", reloaded);
+        // firebaseAuth.currentUser.reload().then(() => {
+            // console.log("TCL: created -> reloaded", reloaded);
 
           //   console.log(firebaseAuth.currentUser.emailVerified);
-          this.updateEmailVerified(firebaseAuth.currentUser.emailVerified);
+          this.updateEmailVerified(true);
           //   console.log(
           //     "TCL: created -> firebaseAuth.currentUser.emailVerified",
           //     firebaseAuth.currentUser.emailVerified
           //   );
-        });
+        // });
       })
       .catch(function(error) {
         console.log(error);
@@ -60,10 +60,10 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["updateEmailVerified"]),
-    logOut() {
-      firebaseAuth.signOut();
-      this.$router.push("/auth");
-    }
+    // logOut() {
+    //   firebaseAuth.signOut();
+    //   this.$router.push("/auth");
+    // }
   }
 };
 </script>

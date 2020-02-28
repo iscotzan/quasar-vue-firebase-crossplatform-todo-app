@@ -1,9 +1,26 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height column">
+      <!-- :class="!$q.platform.is.desktop ? 'full-page' : 'absolute'" -->
       <template v-if="tasksLoaded">
-        <h1 class="text-center text-secondary text-bold">ToDoz</h1>
-        <div class="row q-mb-lg">
+        <!-- <h1
+          v-if="$q.platform.is.desktop || $q.platform.is.ipad"
+          class="text-center text-secondary text-bold"
+        >
+          ToDoz
+        </h1>
+        <span
+          v-else
+          class="text-center text-secondary text-bold text-h6 q-mt-sm q-mb-lg"
+          >ToDoz</span
+        > -->
+        <div
+          :class="
+            $q.platform.is.desktop || $q.platform.is.ipad
+              ? 'row q-mb-lg'
+              : 'row q-mb-lg'
+          "
+        >
           <Search />
           <Sort />
         </div>
@@ -17,7 +34,10 @@
           No search results :(
         </p>
 
-        <q-scroll-area class="relative-position q-scroll-area-tasks">
+        <q-scroll-area
+          class="relative-position q-scroll-area-tasks"
+        >
+          <!-- style="height: auto !important;" -->
           <NoTasks
             v-if="
               !Object.keys(tasksTodo).length &&
@@ -107,9 +127,17 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .q-scroll-area-tasks {
   display: flex;
   flex-grow: 1;
+  height: 10vh;
+}
+.electron {
+  .q-scroll-area-tasks {
+    .scroll {
+      height: auto !important;
+    }
+  }
 }
 </style>

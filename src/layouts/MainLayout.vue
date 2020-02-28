@@ -1,7 +1,10 @@
 <template>
-  <q-layout view="lHh lpR fFf" >
+  <q-layout view="lHh lpR fFf">
     <!-- <q-layout view="lHh Lpr lFf"> -->
-    <q-header elevated :class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'" >
+    <q-header
+      elevated
+      :class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'"
+    >
       <q-toolbar>
         <q-btn
           flat
@@ -56,7 +59,7 @@
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      :breakpoint="767"
+      :breakpoint="768"
       :width="250"
       bordered
       :content-class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'"
@@ -130,7 +133,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
   .q-footer {
     display: none;
   }

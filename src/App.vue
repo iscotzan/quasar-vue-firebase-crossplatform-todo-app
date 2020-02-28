@@ -1,13 +1,14 @@
 <template>
-  <div id="q-app" >
+  <div id="q-app">
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapActions,
-//  mapGetters 
- } from "vuex";
+import {
+  mapActions
+  //  mapGetters
+} from "vuex";
 // get status
 // console.log(this.$q.dark.isActive) // true, false
 
@@ -28,7 +29,7 @@ export default {
   methods: {
     ...mapActions("settings", ["getSettings"]),
     ...mapActions("auth", ["handleAuthStateChange"])
-  },
+  }
   // computed: {
   //   ...mapGetters("settings", ["settings"])
   // }

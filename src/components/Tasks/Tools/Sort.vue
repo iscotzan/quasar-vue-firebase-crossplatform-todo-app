@@ -28,7 +28,7 @@ export default {
         return this.sort;
       },
       set(value) {
-          this.setSort(value)
+        this.setSort(value);
       }
     }
   },

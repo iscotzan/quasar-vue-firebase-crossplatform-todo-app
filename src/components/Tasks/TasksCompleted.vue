@@ -14,7 +14,6 @@
           v-for="(task, key) in tasksCompleted"
           :key="key"
           :class="settings.showInDarkMode ? 'bg-green-7' : 'bg-green-1'"
-          
         >
           <!-- @click="task.completed = !task.completed" -->
           <q-separator />

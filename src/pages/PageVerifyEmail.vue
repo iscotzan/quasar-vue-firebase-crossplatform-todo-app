@@ -3,7 +3,7 @@
     padding
     class="q-pa-md shadow-2 rounded-borders row full-height justify-center"
   >
-    <div id="verificationMail" >
+    <div id="verificationMail">
       <h3>Account Validation</h3>
       <p>
         Hi there <strong>{{ name }}</strong
@@ -14,7 +14,11 @@
         subjet <strong>{{ subjet }}</strong>
       </p>
       <p>This link confirms your registration.</p>
-      <p><q-btn @click="resend" outline color="secondary">Resend account validation mail</q-btn></p>
+      <p>
+        <q-btn @click="resend" outline color="secondary"
+          >Resend account validation mail</q-btn
+        >
+      </p>
     </div>
   </q-page>
 </template>
@@ -39,8 +43,29 @@ export default {
     });
   },
   methods: {
+    alertResent() {
+      const title = "Verification email sent";
+      const message = `We've just sent you an email ${
+        this.email ? "to " + this.email : ""
+      }, please check your inbox.`;
+      this.$q
+        .dialog({
+          dark: true,
+          title,
+          message
+        })
+        .onOk(() => {
+          // console.log('OK')
+        })
+        .onCancel(() => {
+          // console.log('Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        });
+    },
     resend() {
-      firebaseAuth.onAuthStateChanged(function(user) {
+      firebaseAuth.onAuthStateChanged(user => {
         if (user && !user.emailVerified) {
           //   var actionCodeSettings = {
           //     url: "http://..../",
@@ -48,8 +73,10 @@ export default {
           //   };
           user
             .sendEmailVerification()
-            .then(function() {
+            .then(() => {
               // Email sent.
+
+              this.alertResent();
               console.log("TCL: resend ->  Email sent");
             })
             .catch(function(error) {
@@ -59,6 +86,13 @@ export default {
         }
       });
     }
+  },
+  mounted() {
+    firebaseAuth.onAuthStateChanged(user => {
+      if (user && user.emailVerified) {
+        this.$router.push("/");
+      }
+    });
   }
 };
 </script>

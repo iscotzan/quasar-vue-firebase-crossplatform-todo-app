@@ -5,7 +5,5 @@
   </q-card-actions>
 </template>
 <script>
-export default {
-    
-}
+export default {};
 </script>

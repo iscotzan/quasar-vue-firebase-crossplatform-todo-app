@@ -17,6 +17,9 @@ export default async ({ router /* app, router, Vue, ... */ }) => {
       if (to.path == "/auth") {
         next();
       }
+      if (from.path == "/completeAccount") {
+        next();
+      }
       // console.log(to.path);
       else if (
         !emailVerified &&

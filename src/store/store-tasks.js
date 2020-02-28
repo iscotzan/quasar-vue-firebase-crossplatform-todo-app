@@ -130,7 +130,7 @@ const actions = {
     //child added
     userTasks.on("child_added", snapshot => {
       let task = snapshot.val();
-      // console.log("TCL: fbReadData -> task", task);
+      console.log("TCL: fbReadData -> task", task);
       let payload = {
         id: snapshot.key,
         task
@@ -139,11 +139,11 @@ const actions = {
     });
     userTasks.on("child_changed", snapshot => {
       let task = snapshot.val();
-      // console.log("TCL: fbReadData -> task", task);
       let payload = {
         id: snapshot.key,
         updates: task
       };
+      console.log("TCL: fbReadData -> payload", payload)
       commit("updateTask", payload);
     });
     userTasks.on("child_removed", snapshot => {

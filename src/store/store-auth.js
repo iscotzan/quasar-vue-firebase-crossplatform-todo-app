@@ -55,12 +55,17 @@ const actions = {
       });
   },
   updateEmailVerified({ commit, dispatch }, value) {
-    commit("setEmailVerified", value);
+    console.log("TCL: updateEmailVerified -> value", value);
     LocalStorage.set("emailVerified", value);
+    commit("setEmailVerified", value);
     dispatch("tasks/fbReadData", null, { root: true });
+    this.$router.push("/completeAccount").catch(err => {
+      console.log("TCL: handleAuthStateChange -> err", err);
+    });
   },
   handleAuthStateChange({ commit, dispatch }) {
     // console.log("TCL: handleAuthStateChange -> handleAuthStateChange");
+
     firebaseAuth.onAuthStateChanged(user => {
       Loading.hide();
       if (user) {
@@ -80,16 +85,30 @@ const actions = {
           });
           dispatch("tasks/fbReadData", null, { root: true });
         } else {
-          this.$router.push("/verifyEmail").catch(err => {
-            console.log("TCL: handleAuthStateChange -> err", err);
-          });
-          console.log("should veriffy email first");
+          let emailVerified = LocalStorage.getItem("emailVerified");
+          if (emailVerified) {
+            console.log("seems like email is verified, stay here");
+            //   this.$router.push("/completeAccount").catch(err => {
+            //     console.log("TCL: handleAuthStateChange -> err", err);
+            //   });
+          } else {
+            if (this.$router.currentRoute.path === "/completeAccount") {
+              console.log("completeAccount");
+            } else {
+              this.$router.push("/verifyEmail").catch(err => {
+                console.log("TCL: handleAuthStateChange -> err", err);
+              });
+              console.log("should veriffy email first");
+            }
+          }
         }
         // }
       } else {
+        console.log("do not completeAccount");
         commit("tasks/setTasksLoaded", false, { root: true });
         commit("tasks/clearTasks", null, { root: true });
         commit("setLoggedIn", false);
+        commit("setEmailVerified", false);
         LocalStorage.set("loggedIn", false);
         this.$router.push("/auth").catch(err => {
           console.log("TCL: handleAuthStateChange -> err ", err);

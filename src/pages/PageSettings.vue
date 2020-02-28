@@ -100,7 +100,8 @@ export default {
       return openURL("http://www.iscovici.com");
     },
     emailUs() {
-      window.location.href = "mailto:ori@iscovici.com?subject=Todo App Feedback";
+      window.location.href =
+        "mailto:ori@iscovici.com?subject=Todo App Feedback";
     }
   }
 };
