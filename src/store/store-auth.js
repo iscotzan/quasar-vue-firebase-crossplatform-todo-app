@@ -69,6 +69,7 @@ const actions = {
     firebaseAuth.onAuthStateChanged(user => {
       Loading.hide();
       if (user) {
+        console.log("TCL: handleAuthStateChange -> user", user)
         // if (!user.emailVerified) {
         //   commit("setLoggedIn", true);
         //   this.$router.replace("/verifyEmail").catch(err => {

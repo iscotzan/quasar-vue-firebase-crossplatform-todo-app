@@ -20,9 +20,18 @@ import {
 
 // toggle
 // this.$q.dark.toggle()
+import { ipcRenderer } from "electron";
 export default {
   name: "App",
   mounted() {
+    if (this.$q.platform.is.electron) {
+      ipcRenderer.on("show-settings", () => {
+        this.$router.push("/settings");
+      });
+      ipcRenderer.on("show-todoz", () => {
+        this.$router.push("/");
+      });
+    }
     this.getSettings();
     this.handleAuthStateChange();
   },
