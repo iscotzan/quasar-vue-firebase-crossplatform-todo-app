@@ -20,11 +20,16 @@ import {
 
 // toggle
 // this.$q.dark.toggle()
-import { ipcRenderer } from "electron";
+import { Platform } from "quasar";
+console.log("TCL: Platform", Platform);
+if (Platform.is.electron) {
+  // import { ipcRenderer } from "electron";
+}
 export default {
   name: "App",
   mounted() {
     if (this.$q.platform.is.electron) {
+      const { ipcRenderer } = window.require("electron");
       ipcRenderer.on("show-settings", () => {
         this.$router.push("/settings");
       });

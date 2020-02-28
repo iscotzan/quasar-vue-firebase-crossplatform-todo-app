@@ -105,7 +105,10 @@
 import EssentialLink from "components/EssentialLink";
 import FooterTab from "components/FooterTab";
 import { mapState, mapActions, mapGetters } from "vuex";
-import { ipcRenderer } from "electron";
+import { Platform } from "quasar";
+if (Platform.is.electron) {
+  // import { ipcRenderer } from "electron";
+}
 export default {
   name: "MainLayout",
 
@@ -159,6 +162,7 @@ export default {
         .onOk(() => {
           // console.log('>>>> OK')
           if (this.$q.platform.is.electron) {
+            const { ipcRenderer } = window.require("electron");
             ipcRenderer.send("quit-app");
           }
         })
