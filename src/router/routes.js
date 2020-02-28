@@ -5,6 +5,14 @@ const routes = [
     children: [
       { path: "", component: () => import("pages/PageTodo.vue") },
       { path: "auth", component: () => import("pages/PageAuth.vue") },
+      {
+        path: "verifyEmail",
+        component: () => import("pages/PageVerifyEmail.vue")
+      },
+      {
+        path: "completeAccount",
+        component: () => import("pages/PageCompleteAccount")
+      },
       { path: "settings", component: () => import("pages/PageSettings.vue") },
       { path: "settings/help", component: () => import("pages/PageHelp.vue") }
     ]

@@ -34,7 +34,7 @@ const actions = {
     // localStorage.setItem("showTasksInOneList", value);
   },
   setShowTasksInDarkMode({ commit, dispatch }, value) {
-    Dark.set(value)
+    Dark.set(value);
     commit("setShowTasksInDarkMode", value);
     dispatch("saveSettings");
     // localStorage.setItem("showTasksInOneList", value);
@@ -46,8 +46,8 @@ const actions = {
     console.log("TCL: getSettings -> getSettings");
     let settings = LocalStorage.getItem("settings");
     if (settings) {
-      if(settings.showInDarkMode){
-        Dark.set(settings.showInDarkMode)
+      if (settings.showInDarkMode) {
+        Dark.set(settings.showInDarkMode);
       }
       commit("setSettings", settings);
     }

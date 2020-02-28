@@ -1,7 +1,10 @@
 <template>
-  <q-layout view="lHh lpR fFf" >
+  <q-layout view="lHh lpR fFf">
     <!-- <q-layout view="lHh Lpr lFf"> -->
-    <q-header elevated :class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'" >
+    <q-header
+      elevated
+      :class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'"
+    >
       <q-toolbar>
         <q-btn
           flat
@@ -12,7 +15,7 @@
           icon="menu"
           aria-label="Menu"
         />
-
+        <!-- v-if="($q.platform.is.desktop && !$q.platform.is.electron) || ($q.platform.is.ipad && !$q.platform.is.electron)" -->
         <q-toolbar-title>
           What ToDoz
         </q-toolbar-title>
@@ -53,10 +56,11 @@
         /> -->
       </q-tabs>
     </q-footer>
+    <!-- v-if="!this.$q.platform.is.electron" -->
     <q-drawer
       v-model="leftDrawerOpen"
       show-if-above
-      :breakpoint="767"
+      :breakpoint="768"
       :width="250"
       bordered
       :content-class="settings.showInDarkMode ? 'bg-dark' : 'bg-primary'"
@@ -71,6 +75,23 @@
           :key="link.title"
           v-bind="link"
         />
+        <q-item
+          clickable
+          exact
+          class="text-grey-4 absolute-bottom"
+          tag="a"
+          v-if="$q.platform.is.electron"
+          @click="quitApp"
+        >
+          <q-item-section avatar>
+            <q-icon name="power_settings_new" />
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Exit</q-item-label>
+            <!-- <q-item-label> exit now</q-item-label> -->
+          </q-item-section>
+        </q-item>
       </q-list>
     </q-drawer>
 
@@ -84,6 +105,7 @@
 import EssentialLink from "components/EssentialLink";
 import FooterTab from "components/FooterTab";
 import { mapState, mapActions, mapGetters } from "vuex";
+import { ipcRenderer } from "electron";
 export default {
   name: "MainLayout",
 
@@ -109,14 +131,14 @@ export default {
           icon: "settings",
           link: null,
           to: "/settings"
-        },
-        {
-          title: "About",
-          caption: "About",
-          icon: "info",
-          link: null,
-          to: "/about"
         }
+        // {
+        //   title: "About",
+        //   caption: "About",
+        //   icon: "info",
+        //   link: null,
+        //   to: "/about"
+        // }
       ]
     };
   },
@@ -125,12 +147,36 @@ export default {
     ...mapGetters("settings", ["settings"])
   },
   methods: {
-    ...mapActions("auth", ["logoutUser"])
+    ...mapActions("auth", ["logoutUser"]),
+    quitApp() {
+      this.$q
+        .dialog({
+          title: "Confirm",
+          message: "Would you like to quit todoz now?",
+          cancel: true,
+          persistent: true
+        })
+        .onOk(() => {
+          // console.log('>>>> OK')
+          if (this.$q.platform.is.electron) {
+            ipcRenderer.send("quit-app");
+          }
+        })
+        .onOk(() => {
+          // console.log('>>>> second OK catcher')
+        })
+        .onCancel(() => {
+          // console.log('>>>> Cancel')
+        })
+        .onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
+        });
+    }
   }
 };
 </script>
 <style scoped lang="scss">
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
   .q-footer {
     display: none;
   }

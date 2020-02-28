@@ -1,9 +1,15 @@
 <template>
   <form @submit.prevent="submitForm">
     <div class="row q-mb-md ">
-      <q-banner dense :class="settings.showInDarkMode ? 'bg-secondary col' : 'bg-grey-3 col'">
+      <q-banner
+        dense
+        :class="settings.showInDarkMode ? 'bg-secondary col' : 'bg-grey-3 col'"
+      >
         <template v-slot:avatar>
-          <q-icon name="account_circle" :color="settings.showInDarkMode ? 'blue-2' : 'primary'" />
+          <q-icon
+            name="account_circle"
+            :color="settings.showInDarkMode ? 'blue-2' : 'primary'"
+          />
         </template>
         {{ tab | titleCase }} to access your todos anywhere!
       </q-banner>

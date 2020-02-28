@@ -1,13 +1,14 @@
 <template>
-  <div id="q-app" >
+  <div id="q-app">
     <router-view />
   </div>
 </template>
 
 <script>
-import { mapActions,
-//  mapGetters 
- } from "vuex";
+import {
+  mapActions
+  //  mapGetters
+} from "vuex";
 // get status
 // console.log(this.$q.dark.isActive) // true, false
 
@@ -19,16 +20,25 @@ import { mapActions,
 
 // toggle
 // this.$q.dark.toggle()
+import { ipcRenderer } from "electron";
 export default {
   name: "App",
   mounted() {
+    if (this.$q.platform.is.electron) {
+      ipcRenderer.on("show-settings", () => {
+        this.$router.push("/settings");
+      });
+      ipcRenderer.on("show-todoz", () => {
+        this.$router.push("/");
+      });
+    }
     this.getSettings();
     this.handleAuthStateChange();
   },
   methods: {
     ...mapActions("settings", ["getSettings"]),
     ...mapActions("auth", ["handleAuthStateChange"])
-  },
+  }
   // computed: {
   //   ...mapGetters("settings", ["settings"])
   // }

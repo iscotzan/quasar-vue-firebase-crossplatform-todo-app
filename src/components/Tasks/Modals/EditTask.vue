@@ -18,7 +18,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import mixinAddEditTask from './../../../mixins/mixin-add-edit-task';
+import mixinAddEditTask from "./../../../mixins/mixin-add-edit-task";
 // const initialTaskToSubmit = {
 //   completed: false,
 //   name: "",
@@ -35,7 +35,7 @@ export default {
   props: ["task", "id"],
   methods: {
     ...mapActions("tasks", ["updateTask"]),
-   
+
     submitTask() {
       console.log("submit task");
       this.updateTask({ id: this.id, updates: this.taskToSubmit });

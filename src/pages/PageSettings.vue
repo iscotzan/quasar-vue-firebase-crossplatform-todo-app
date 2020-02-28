@@ -56,6 +56,14 @@
           <q-icon name="chevron_right" />
         </q-item-section>
       </q-item>
+      <!-- <q-item class="absolute-bottom" v-if="$q.platform.is.electron" tag="label" v-ripple>
+        <q-item-section>
+          <q-item-label>Exit App</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-icon name="power_settings_new" />
+        </q-item-section>
+      </q-item> -->
     </q-list>
   </q-page>
 </template>
@@ -100,7 +108,8 @@ export default {
       return openURL("http://www.iscovici.com");
     },
     emailUs() {
-      window.location.href = "mailto:ori@iscovici.com?subject=Todo App Feedback";
+      window.location.href =
+        "mailto:ori@iscovici.com?subject=Todo App Feedback";
     }
   }
 };
